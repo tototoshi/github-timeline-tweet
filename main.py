@@ -7,8 +7,6 @@ from twitter import *
 
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
-GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
-GITHUB_PASSWORD = os.getenv("GITHUB_PASSWORD")
 GITHUB_OAUTH_TOKEN = os.getenv("GITHUB_OAUTH_TOKEN")
 
 def shorten_url(long_url):
