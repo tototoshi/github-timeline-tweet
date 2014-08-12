@@ -8,6 +8,8 @@ from twitter import *
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 GITHUB_OAUTH_TOKEN = os.getenv("GITHUB_OAUTH_TOKEN")
+GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
+
 
 def shorten_url(long_url):
     params = {"access_token": os.getenv("BITLY_ACCESS_TOKEN"), "longUrl": long_url}
@@ -36,7 +38,7 @@ def create_tweet_text(text, url):
 
 def get_events():
     headers = {"Authorization": "token " + GITHUB_OAUTH_TOKEN}
-    r = requests.get("https://api.github.com/users/tototoshi/received_events", headers=headers)
+    r = requests.get("https://api.github.com/users/" + GITHUB_USERNAME + "/received_events", headers=headers)
     events = r.json()
     event_list = []
     for event in events:
