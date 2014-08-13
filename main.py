@@ -4,6 +4,7 @@
 import os
 import requests
 from twitter import *
+from twitter.api import TwitterHTTPError
 
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
@@ -110,5 +111,10 @@ if __name__ == "__main__":
     for ident, text in events:
         if ident > position_id:
             print(text)
-            tweet(text)
+            try:
+                tweet(text)
+            except TwitterHTTPError as e:
+                message = str(e)
+                if "Status is a duplicate" in message:
+                    print("Status is a duplicate: " + text)
         write_position_file(ident)
