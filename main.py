@@ -50,7 +50,7 @@ def get_events():
         summary = "[" + repo + "][" + event_type + "] " + actor + " / "
         url = ''
         payload = event['payload']
-        if event_type == 'IssueComment':
+        if event_type == 'IssueComment' or event_type == 'CommitComment':
             summary += payload['comment']['body']
             url = payload['comment']['html_url']
         elif event_type == 'Issues':
