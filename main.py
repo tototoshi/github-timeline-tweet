@@ -83,6 +83,12 @@ def get_events():
         elif event_type == 'Watch':
             summary += 'Started watching'
             url = 'https://github.com/' + repo
+        elif event_type == 'Gollum':
+            pages = payload['pages']
+            action = pages[0]['action'] # edited or created
+            page_name = pages[0]['page_name']
+            summary += action.capitalize() + ' ' + page_name
+            url = pages[0]['html_url']
         else:
             pass
         text = create_tweet_text(summary, url)
