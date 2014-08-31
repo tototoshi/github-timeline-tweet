@@ -68,6 +68,8 @@ def get_events():
                 summary += "Created repository"
             elif ref_type == "branch":
                 summary += "Created branch " + payload['ref']
+            elif ref_type == "tag":
+                summary += "Created tag " + payload['ref']
             url = 'https://github.com/' + repo
         elif event_type == 'PullRequest':
             summary += payload['pull_request']['title']
