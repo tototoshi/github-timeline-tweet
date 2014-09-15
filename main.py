@@ -91,6 +91,11 @@ def get_events():
             page_name = pages[0]['page_name']
             summary += action.capitalize() + ' ' + page_name
             url = pages[0]['html_url']
+        elif event_type == 'Member':
+            member = payload['member']['login'] 
+            action = payload['action']
+            summary += action + " " + member
+            url = 'https://github.com/' + repo
         else:
             pass
         text = create_tweet_text(summary, url)
