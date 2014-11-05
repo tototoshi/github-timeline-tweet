@@ -79,6 +79,9 @@ def get_events():
             url = payload['comment']['html_url']
         elif event_type == 'Fork':
             url = payload['forkee']['html_url']
+        elif event_type == 'Public':
+            summary += 'Open sourced'
+            url = 'https://github.com/' + repo
         elif event_type == 'Release':
             summary += payload['release']['body']
             url = payload['release']['html_url']
