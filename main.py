@@ -44,7 +44,9 @@ def create_tweet_text(text, url):
 
 def get_events():
     headers = {"Authorization": "token " + GITHUB_OAUTH_TOKEN}
-    r = requests.get("https://api.github.com/users/" + GITHUB_USERNAME + "/received_events", headers=headers)
+    r = requests.get("https://api.github.com/users/" + GITHUB_USERNAME + "/received_events",
+                     headers=headers,
+                     timeout=10)
     events = r.json()
     event_list = []
     for event in events:
