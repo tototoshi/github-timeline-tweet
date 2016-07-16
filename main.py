@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+import json
 import requests
 import logging
 from twitter import *
@@ -15,6 +16,7 @@ GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 GITHUB_OAUTH_TOKEN = os.getenv("GITHUB_OAUTH_TOKEN")
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
+SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 
 
 def shorten_url(long_url):
@@ -112,6 +114,11 @@ def get_events():
         event_list.append(event)
     return event_list
 
+def post_to_slack(summary, url):
+    text = summary + " " + "<" + url + ">"
+    payload = json.dumps({ 'text': text })
+    requests.post(SLACK_WEBHOOK_URL, data=payload)
+
 def tweet(text):
     access_token_key = os.getenv("TWITTER_ACCESS_TOKEN_KEY")
     access_token_secret = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
@@ -139,13 +146,14 @@ if __name__ == "__main__":
         ident = event['id']
         summary = event['summary']
         url = event['url']
-        text = create_tweet_text(summary, url)
+        tweet_text = create_tweet_text(summary, url)
         if ident > position_id:
-            print(text)
+            print(tweet_text)
+            post_to_slack(summary, url)
             try:
-                tweet(text)
+                tweet(tweet_text)
             except TwitterHTTPError as e:
                 message = str(e)
                 if "Status is a duplicate" in message:
-                    print("Status is a duplicate: " + text)
+                    print("Status is a duplicate: " + tweet_text)
         write_position_file(ident)
