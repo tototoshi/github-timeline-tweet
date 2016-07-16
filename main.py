@@ -108,8 +108,8 @@ def get_events():
             url = 'https://github.com/' + repo
         else:
             pass
-        text = create_tweet_text(summary, url)
-        event_list.append((int(ident), text))
+        event = { 'id': int(ident), 'summary': summary, 'url': url }
+        event_list.append(event)
     return event_list
 
 def tweet(text):
@@ -135,7 +135,11 @@ if __name__ == "__main__":
         position_id = int(open(position_file).read())
     events = get_events()
     events.reverse()
-    for ident, text in events:
+    for event in events:
+        ident = event['id']
+        summary = event['summary']
+        url = event['url']
+        text = create_tweet_text(summary, url)
         if ident > position_id:
             print(text)
             try:
